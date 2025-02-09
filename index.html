@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Events Lookup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        select, button {
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Historical Events Lookup</h1>
+<p>Select a year to find significant historical events:</p>
+<select id="yearSelect">
+    <!-- Years from 1600 to 2025 -->
+</select>
+<button onclick="showEvent()">Lookup Event</button>
+
+<div id="result"></div>
+
+<script>
+const historicalEvents = {
+    1600: {
+        event: "Battle of Sekigahara",
+        details: "Decisive battle that established Tokugawa Ieyasu as the ruler of Japan, leading to over 250 years of feudal rule."
+    },
+    1601: {
+        event: "Shakespeare's Hamlet staged",
+        details: "One of William Shakespeare's most famous plays, marking a high point in English literature."
+    },
+    1602: {
+        event: "Dutch East India Company founded",
+        details: "The world's first multinational corporation, it played a major role in global trade."
+    },
+    1603: {
+        event: "Death of Queen Elizabeth I",
+        details: "Ended the Tudor dynasty and led to the ascension of James I, uniting the crowns of England and Scotland."
+    },
+    1604: {
+        event: "First Permanent Theatre in London opens",
+        details: "The Blackfriars Theatre opens, contributing to the development of English drama."
+    },
+    1605: {
+        event: "Gunpowder Plot",
+        details: "A failed attempt to assassinate King James I of England, influencing British politics."
+    },
+    1606: {
+        event: "First Performance of Macbeth",
+        details: "Shakespeare's iconic tragedy premiered, continuing his influence on literature."
+    },
+    1607: {
+        event: "Founding of Jamestown",
+        details: "First permanent English settlement in America, marking the beginning of the British Empire in the New World."
+    },
+    1608: {
+        event: "Founding of the Belgian town of Bruges",
+        details: "Significant as the capital of Flanders and an important trading hub in Europe."
+    },
+    1609: {
+        event: "Galileo's telescope",
+        details: "Galileo improves the telescope, allowing for new astronomical discoveries."
+    },
+    1610: {
+        event: "Galileo discovers Jupiter's moons",
+        details: "Revolutionary findings that supported the heliocentric model of the solar system."
+    },
+    1611: {
+        event: "King James Bible published",
+        details: "An influential English translation of the Bible that remains widely used today."
+    },
+    1612: {
+        event: "The first battle of the Anglo-Powhatan Wars",
+        details: "Signifies the start of conflicts between Jamestown settlers and Native Americans."
+    },
+    1613: {
+        event: "First British theatre built in America",
+        details: "The Blackfriars Theatre is established in Virginia, marking cultural expansion."
+    },
+    1614: {
+        event: "First known performance of Othello",
+        details: "Shakespeare's play focused on themes of jealousy and betrayal."
+    },
+    1615: {
+        event: "Astrology gains popularity",
+        details: "Astrology becomes more widespread in Europe, influencing culture and sciences."
+    },
+    1616: {
+        event: "Death of Shakespeare",
+        details: "William Shakespeare passes away, leaving a lasting legacy on literature and drama."
+    },
+    1617: {
+        event: "First performance of The Tempest",
+        details: "This late Shakespearean play explores themes of magic and nature."
+    },
+    1618: {
+        event: "Thirty Years' War begins",
+        details: "A major conflict in Europe between Catholic and Protestant states that resulted in widespread devastation."
+    },
+    1619: {
+        event: "First enslaved Africans arrive in Virginia",
+        details: "Beginning of a significant and tragic chapter in American history concerning slavery."
+    },
+    1620: {
+        event: "Pilgrims arrive at Plymouth",
+        details: "The arrival of the Pilgrims marks a significant event in American history, leading to the establishment of a colony."
+    },
+    1621: {
+        event: "First Thanksgiving",
+        details: "A harvest feast shared by Pilgrims and Native Americans, commemorating cooperation."
+    },
+    1622: {
+        event: "Twelver Shi'ism becomes state religion of Persia",
+        details: "Significant religious shift that shapes modern Iranian identity."
+    },
+    1623: {
+        event: "First known printing of Shakespeare's sonnets",
+        details: "Publication of Shakespeare's sonnets solidifies his influence on poetry."
+    },
+    1624: {
+        event: "Dutch seize control of Brazil",
+        details: "The Dutch establish a foothold in South America during their Golden Age."
+    },
+    1625: {
+        event: "King Charles I ascends to the throne",
+        details: "His reign leads to significant conflicts with Parliament in England."
+    },
+    1626: {
+        event: "Construction of St. Peter's Basilica begins",
+        details: "A monumental project in Vatican City that represents Renaissance art and architecture."
+    },
+    1627: {
+        event: "Birth of El Greco",
+        details: "Famous painter whose works reflect the influence of Spanish culture and spirituality."
+    },
+    1628: {
+        event: "English Parliament passes the Petition of Right",
+        details: "A significant legal document attempting to limit the powers of the monarchy."
+    },
+    1629: {
+        event: "Charles I dissolves Parliament",
+        details: "Marks the beginning of a personal rule that leads to civil unrest in England."
+    },
+    1630: {
+        event: "Puritan migration to America begins",
+        details: "Significant wave of Puritans relocate to New England for religious freedom."
+    },
+    1631: {
+        event: "Publication of The Anatomy of Melancholy",
+        details: "Robert Burton's influential book explores psychology and mental health."
+    },
+    1632: {
+        event: "Galileo's Dialogue Concerning the Two Chief World Systems published",
+        details: "Advocated for heliocentrism, leading to his trial and condemnation by the Church."
+    },
+    1633: {
+        event: "Galileo tried by the Inquisition",
+        details: "His advocacy for heliocentrism leads to condemnation and house arrest."
+    },
+    1634: {
+        event: "Maryland founded",
+        details: "English colony established as a haven for Catholics fleeing persecution."
+    },
+    1635: {
+        event: "Construction of the first public school in America",
+        details: "The Boston Latin School is founded, marking a step toward public education."
+    },
+    1636: {
+        event: "Harvard University established",
+        details: "America's oldest institution of higher education, founded in Massachusetts."
+    },
+    1637: {
+        event: "Trial of Anne Hutchinson",
+        details: "A significant event in the history of religious freedom and women's rights in America."
+    },
+    1638: {
+        event: "The first female immigrant to the American colonies arrives",
+        details: "Margaret Jones arrives in the Massachusetts Bay Colony, impacting early female presence in America."
+    },
+    1639: {
+        event: "Fundamental Orders of 1638",
+        details: "Considered by some to be the first written constitution that created a government."
+    },
+    1640: {
+        event: "English Long Parliament convenes",
+        details: "A critical turning point leading to the English Civil War."
+    },
+    1641: {
+        event: "The Massachusetts Body of Liberties",
+        details: "Codified a series of rights and liberties for colonists in Massachusetts."
+    },
+    1642: {
+        event: "English Civil War begins",
+        details: "Conflict between the monarchy and Parliament over governance in England, leading to the establishment of a commonwealth."
+    },
+    1643: {
+        event: "Louis XIV crowned King of France",
+        details: "Begins a long reign characterized by the absolute rule and centralization of power."
+    },
+    1644: {
+        event: "The Ming dynasty falls",
+        details: "The end of the Ming dynasty leads to the rise of the Qing dynasty in China."
+    },
+    1645: {
+        event: "Battle of Naseby",
+        details: "A decisive battle in the English Civil War won by the Parliamentarians."
+    },
+    1646: {
+        event: "First English printing of the Bible",
+        details: "The first complete English Bible is printed by Samuel B. W. Faber."
+    },
+    1647: {
+        event: "Trial of the Regicides",
+        details: "Leads to the convictions of individuals involved in the execution of King Charles I."
+    },
+    1648: {
+        event: "Peace of Westphalia",
+        details: "End of the Thirty Years' War; established principles of state sovereignty."
+    },
+    1649: {
+        event: "Execution of King Charles I",
+        details: "Marks the first execution of a reigning monarch in England and a pivotal moment in history."
+    },
+    1650: {
+        event: "Publication of Leviathan by Thomas Hobbes",
+        details: "A foundational work in political philosophy that discusses social contract theory."
+    },
+    1651: {
+        event: "Start of the First Anglo-Dutch War",
+        details: "Conflict over trade and naval dominance between England and the Netherlands."
+    },
+    1652: {
+        event: "First Anglo-Dutch War begins",
+        details: "Conflict over trade and naval supremacy, reshaping European power dynamics."
+    },
+    1653: {
+        event: "Oliver Cromwell dissolves the Rump Parliament",
+        details: "Marks the start of military rule in England during the Commonwealth period."
+    },
+    1654: {
+        event: "The Treaty of the Pyrenees",
+        details: "Ends hostilities between France and Spain, altering European power balances."
+    },
+    1655: {
+        event: "The invasion of Jamaica by the English",
+        details: "Establishment of British control over Jamaica, significant for colonial expansion."
+    },
+    1656: {
+        event: "The establishment of the first Quaker meeting",
+        details: "Marks the growth of Religious Society of Friends in England and its principles."
+    },
+    1657: {
+        event: "The birth of the Muggletonians",
+        details: "A religious movement that developed in England, reflecting dissenting beliefs."
+    },
+    1658: {
+        event: "Death of Oliver Cromwell",
+        details: "Cromwell's death results in a power vacuum, eventually leading to the Restoration."
+    },
+    1659: {
+        event: "Restoration of Charles II",
+        details: "After years of rule by parliamentarians and military leaders, monarchy is restored in England."
+    },
+    1660: {
+        event: "The Restoration",
+        details: "Restoration of the monarchy in England with Charles II returning to power after years of republican rule."
+    },
+    1661: {
+        event: "Charles II declares war on the Dutch",
+        details: "Continuation of conflicts over trade and naval superiority in Europe."
+    },
+    1662: {
+        event: "The Act of Uniformity",
+        details: "Imposes religious uniformity in England, leading to dissenting movements."
+    },
+    1663: {
+        event: "The Royal Society founded",
+        details: "An important scientific institution in England that promotes scientific research."
+    },
+    1664: {
+        event: "Dutch cede New Amsterdam to the English",
+        details: "Renamed New York, this marks a significant expansion of English colonial holdings."
+    },
+    1665: {
+        event: "The Great Plague of London",
+        details: "A major bubonic plague outbreak that caused devastation in the city."
+    },
+    1666: {
+        event: "The Great Fire of London",
+        details: "A disastrous fire that leads to significant changes in urban planning and architecture."
+    },
+    1667: {
+        event: "The Second Anglo-Dutch War begins",
+        details: "Conflict primarily over trade, impacting European economic power struggles."
+    },
+    1668: {
+        event: "Treaty of Dover",
+        details: "Alliance between England and France, influencing European politics."
+    },
+    1669: {
+        event: "James II announces the Toleration Act",
+        details: "A major step in religious freedoms, though soon revoked."
+    },
+    1670: {
+        event: "The formation of the Hudson's Bay Company",
+        details: "Establishes British interests in fur trade in North America."
+    },
+    1671: {
+        event: "The founding of the British East Africa Company",
+        details: "Marks the beginning of British colonial interests in East Africa."
+    },
+    1672: {
+        event: "The Third Anglo-Dutch War begins",
+        details: "An ongoing conflict that further entrenches British and Dutch rivalry."
+    },
+    1673: {
+        event: "The founding of the first public library in London",
+        details: "Promotes literacy and learning among the general population."
+    },
+    1674: {
+        event: "Peace of Nijmegen",
+        details: "Ends the Dutch War between France and the Netherlands, shaping future alliances."
+    },
+    1675: {
+        event: "King Philip's War begins",
+        details: "Conflict between Native Americans and English settlers in New England."
+    },
+    1676: {
+        event: "Bacon's Rebellion",
+        details: "A rebellion against colonial government in Virginia, highlighting tensions in colonial society."
+    },
+    1677: {
+        event: "The first scientific journal published",
+        details: "Marks the beginning of scientific communication and documentation."
+    },
+    1678: {
+        event: "The first steam engine built",
+        details: "An innovation that lays the groundwork for the Industrial Revolution."
+    },
+    1679: {
+        event: "The Habeas Corpus Act",
+        details: "A significant legal reform in England that protects against unlawful detention."
+    },
+    1680: {
+        event: "Pueblo Revolt",
+        details: "An uprising of Pueblo people against Spanish colonial rule in New Mexico."
+    },
+    1681: {
+        event: "Pennsylvania founded",
+        details: "William Penn establishes a colony as a refuge for Quakers and religious freedom."
+    },
+    1682: {
+        event: "Construction of the Palace of Versailles begins",
+        details: "Symbol of absolute monarchy in France under Louis XIV."
+    },
+    1683: {
+        event: "Siege of Vienna",
+        details: "Significant battle marking the start of the decline of Ottoman power in Europe."
+    },
+    1684: {
+        event: "The founding of the Royal Society of London",
+        details: "Promotes scientific discourse and innovation among members."
+    },
+    1685: {
+        event: "Edict of Fontainebleau",
+        details: "Revoked the Edict of Nantes, leading to persecution of Huguenots in France."
+    },
+    1686: {
+        event: "J.S. Bach's first son is born",
+        details: "Representing the lineage of one of the most influential composers in music history."
+    },
+    1687: {
+        event: "Newton publishes Principia Mathematica",
+        details: "A key work in physics and mathematics that lays the foundations of classical mechanics."
+    },
+    1688: {
+        event: "Glorious Revolution",
+        details: "The overthrow of King James II of England, establishing constitutional monarchy and parliamentary supremacy."
+    },
+    1689: {
+        event: "Bill of Rights in England",
+        details: "Establishes basic civil rights and limits the powers of the monarchy."
+    },
+    1690: {
+        event: "John Locke publishes Two Treatises of Government",
+        details: "A foundational text advocating for the social contract and natural rights."
+    },
+    1691: {
+        event: "Establishment of the first British colony in South Carolina",
+        details: "A significant step in colonial expansion in the southern regions of North America."
+    },
+    1692: {
+        event: "Salem witch trials",
+        details: "A series of hearings and prosecutions of people accused of witchcraft in colonial Massachusetts."
+    },
+    1693: {
+        event: "Cascadia earthquake",
+        details: "A significant natural disaster that impacted areas of the Pacific Northwest."
+    },
+    1694: {
+        event: "The founding of the Bank of England",
+        details: "Marking the beginning of the modern banking system in England."
+    },
+    1695: {
+        event: "Publication of the first newspaper in England",
+        details: "The Daily Courant marks a shift in information dissemination."
+    },
+    1696: {
+        event: "Establishment of the Royal Academy of Sciences in Paris",
+        details: "Signifying the importance of scientific inquiry and research in Europe."
+    },
+    1697: {
+        event: "Peter the Great begins Westernization of Russia",
+        details: "Initiating reforms that modernize the Russian state and military."
+    },
+    1698: {
+        event: "Foundation of Russian Navy",
+        details: "Marks a significant step in Russia's rise as a maritime power."
+    },
+    1699: {
+        event: "The end of the 30-Year War",
+        details: "Marks the conclusion of a devastating conflict in Europe with lasting political changes."
+    },
+    1700: {
+        event: "The Great Northern War begins",
+        details: "A conflict involving Sweden against a coalition of Russia, Denmark-Norway, and Saxony."
+    },
+    1701: {
+        event: "The War of Spanish Succession begins",
+        details: "A major European conflict over the control of the Spanish throne."
+    },
+    1702: {
+        event: "Queen Anne's War begins",
+        details: "The American theater of the War of Spanish Succession, involving French and English colonists."
+    },
+    1703: {
+        event: "Saint Petersburg founded",
+        details: "Peter the Great establishes the capital of Russia to further his westernization efforts."
+    },
+    1704: {
+        event: "Battle of Blore Heath",
+        details: "An important battle in the War of Spanish Succession."
+    },
+    1705: {
+        event: "Galileo’s trial concludes",
+        details: "Finalization of events leading to his condemnation by the Inquisition."
+    },
+    1706: {
+        event: "Battle of Ramillies",
+        details: "Decisive victory by the Duke of Marlborough in the War of Spanish Succession."
+    },
+    1707: {
+        event: "Acts of Union unite England and Scotland",
+        details: "Formation of Great Britain, marking a significant political change."
+    },
+    1708: {
+        event: "Battle of Oudenarde",
+        details: "Another major victory for the English and their allies in the War of Spanish Succession."
+    },
+    1709: {
+        event: "Battle of Malplaquet",
+        details: "A bloody conflict that showcases the prolonged nature of the War of Spanish Succession."
+    },
+    1710: {
+        event: "Publication of the first periodical in England",
+        details: "The Tattler begins a tradition of serial publications."
+    },
+    1711: {
+        event: "The first public opera house opens in London",
+        details: "Signifying a growth in popularity of opera and music in public culture."
+    },
+    1712: {
+        event: "The first complete edition of the plays of Molière is published",
+        details: "A significant event in the history of French literature."
+    },
+    1713: {
+        event: "Treaty of Utrecht",
+        details: "Ends the War of Spanish Succession and redistributes territories in Europe."
+    },
+    1714: {
+        event: "George I becomes King of Britain",
+        details: "Beginning of the Hanoverian dynasty, influencing British politics."
+    },
+    1715: {
+        event: "Louis XIV dies",
+        details: "The death of one of the most powerful monarchs in European history."
+    },
+    1716: {
+        event: "Foundation of the Trieste Port",
+        details: "Signifying Italy's development as a maritime trade hub."
+    },
+    1717: {
+        event: "The first Masonic Lodge is founded in London",
+        details: "The start of organized Freemasonry."
+    },
+    1718: {
+        event: "Pirate Blackbeard is active",
+        details: "Signifying the height of piracy in the Caribbean."
+    },
+    1719: {
+        event: "Robinson Crusoe is published",
+        details: "Daniel Defoe's novel becomes a classic, influencing adventure literature."
+    },
+    1720: {
+        event: "The South Sea Bubble bursts",
+        details: "A major financial crash in England affecting the stock market."
+    },
+    1721: {
+        event: "The establishment of the first newspaper in America",
+        details: "Expanding the reach of information in the colonies."
+    },
+    1722: {
+        event: "The first demonstration of the pneumatic engine",
+        details: "Innovation that lays groundwork for future technological advancements."
+    },
+    1723: {
+        event: "Death of Sir Isaac Newton",
+        details: "End of an era for scientific discovery and inquiry."
+    },
+    1724: {
+        event: "First European settlement in Western Australia",
+        details: "Establishment of colonial presence in Australia."
+    },
+    1725: {
+        event: "Building of St. Petersburg begins",
+        details: "Establishment of the city that symbolizes modernization in Russia."
+    },
+    1726: {
+        event: "The first edition of Gulliver’s Travels published",
+        details: "Jonathan Swift's satirical work becomes a classic of English literature."
+    },
+    1727: {
+        event: "Foundation of the Royal Academy of Sciences in Berlin",
+        details: "Signifies the importance of scientific inquiry in the German-speaking world."
+    },
+    1728: {
+        event: "First comprehensive map of the world published",
+        details: "Showing advancements in cartography and global understanding."
+    },
+    1729: {
+        event: "The rise of the Enlightenment",
+        details: "A movement emphasizing reason and individualism in Western philosophy."
+    },
+    1730: {
+        event: "Construction of the first synagogue in America",
+        details: "Signifying the growth of Jewish communities in the colonies."
+    },
+    1731: {
+        event: "The founding of the first public library in America",
+        details: "Promoting literacy and access to literature for all."
+    },
+    1732: {
+        event: "Publication of Franklin's Poor Richard's Almanack",
+        details: "Benjamin Franklin's influential work on practical advice and philosophy."
+    },
+    1733: {
+        event: "The first successful cotton mill opens in America",
+        details: "Beginning the American industrial revolution in textiles."
+    },
+    1734: {
+        event: "First professional American theater opens",
+        details: "A significant cultural development in the American colonies."
+    },
+    1735: {
+        event: "The founding of the Society of Arts in England",
+        details: "Promoting and encouraging technological innovation and invention."
+    },
+    1736: {
+        event: "The birth of the modern British Army",
+        details: "Signifying military reforms that strengthen national defense."
+    },
+    1737: {
+        event: "Death of Jonathan Swift",
+        details: "Leader of the literary satirical movement in England."
+    },
+    1738: {
+        event: "First labor organizations formed in England",
+        details: "Early steps toward organized labor movements."
+    },
+    1739: {
+        event: "The War of Jenkins’ Ear begins",
+        details: "Conflict between Britain and Spain over trading rights."
+    },
+    1740: {
+        event: "The War of Austrian Succession begins",
+        details: "Major European conflict over rights to the Habsburg thrones."
+    },
+    1741: {
+        event: "The first complete translation of the Bible into Urdu",
+        details: "Significant contribution to religious texts in India."
+    },
+    1742: {
+        event: "The establishment of the first European-style academic institutions in India",
+        details: "Marking changes in education systems in colonized countries."
+    },
+    1743: {
+        event: "First performance of Handel's Messiah",
+        details: "A landmark in classical music traditions."
+    },
+    1744: {
+        event: "Foundation of the Anglo-Saxons Academy",
+        details: "A key institution for political and scholarly activities in England."
+    },
+    1745: {
+        event: "The Jacobite Rising begins",
+        details: "A significant event in Scotland aimed at restoring the Stuart monarchy."
+    },
+    1746: {
+        event: "Battle of Culloden",
+        details: "Decisive defeat for the Jacobite forces, ending the uprising."
+    },
+    1747: {
+        event: "The birth of the Rococo art movement",
+        details: "A style influencing art and design across Europe."
+    },
+    1748: {
+        event: "Publication of the first official world map",
+        details: "Signifying advances in geography and exploration."
+    },
+    1749: {
+        event: "First performance of The Marriage of Figaro",
+        details: "A landmark opera that revolutionizes the genre."
+    },
+    1750: {
+        event: "The beginning of the Industrial Revolution",
+        details: "Marks the shift from agrarian economies to industrialized societies."
+    },
+    1751: {
+        event: "The founding of the first encyclopedia",
+        details: "Contributing to the dissemination of knowledge and the Enlightenment."
+    },
+    1752: {
+        event: "Britain adopts the Gregorian calendar",
+        details: "Aligning more closely with other European nations."
+    },
+    1753: {
+        event: "Publication of the first systematic study of botany in England",
+        details: "Advancing the field of natural science."
+    },
+    1754: {
+        event: "French and Indian War begins",
+        details: "Part of the global conflict known as the Seven Years’ War."
+    },
+    1755: {
+        event: "Lisbon earthquake",
+        details: "A devastating earthquake that reshapes philosophical thought in Europe."
+    },
+    1756: {
+        event: "Seven Years' War begins",
+        details: "A global conflict involving many of the world's great powers."
+    },
+    1757: {
+        event: "Battle of Plassey",
+        details: "British victory in India that marks the beginning of British control in Bengal."
+    },
+    1758: {
+        event: "Establishment of the British East India Company",
+        details: "Strengthening British commercial and colonial presence in India."
+    },
+    1759: {
+        event: "The publication of Candide by Voltaire",
+        details: "Signifying the power of satire and critique in literature."
+    },
+    1760: {
+        event: "The start of the Industrial Revolution",
+        details: "Shifting economies and societies due to mechanization and industrialization."
+    },
+    1761: {
+        event: "Published first volume of the Encyclopedia Britannica",
+        details: "Contributing to the spread of knowledge in the English-speaking world."
+    },
+    1762: {
+        event: "The Social Contract by Rousseau published",
+        details: "Influential work laying the foundation of modern political philosophy."
+    },
+    1763: {
+        event: "Treaty of Paris ends the Seven Years' War",
+        details: "Redraws territorial lines and establishes British dominance in North America."
+    },
+    1764: {
+        event: "The spinning jenny invented",
+        details: "Signifying innovation in the textile industry during the Industrial Revolution."
+    },
+    1765: {
+        event: "Stamp Act passed by British Parliament",
+        details: "Leading to colonial protest and tension between Britain and the American colonies."
+    },
+    1766: {
+        event: "Repeal of the Stamp Act",
+        details: "Recognizing colonial resistance and a shift in British policy."
+    },
+    1767: {
+        event: "Townshend Acts passed",
+        details: "Imposed duties on various goods, leading to further American dissent."
+    },
+    1768: {
+        event: "First modern census conducted in England",
+        details: "A significant step toward understanding population demographics."
+    },
+    1769: {
+        event: "James Watt patents the steam engine",
+        details: "A pivotal innovation that accelerates the Industrial Revolution."
+    },
+    1770: {
+        event: "Boston Massacre",
+        details: "Confrontation between British soldiers and American colonists, heightening tensions."
+    },
+    1771: {
+        event: "The founding of the first public school in Paris",
+        details: "Signifying the growth of public education in Europe."
+    },
+    1772: {
+        event: "First public vaccination program begins in England",
+        details: "A major advancement in public health and disease prevention."
+    },
+    1773: {
+        event: "Boston Tea Party",
+        details: "Colonial protest against British taxation, a catalyst for the American Revolution."
+    },
+    1774: {
+        event: "First Continental Congress convenes",
+        details: "Colonial delegates meet to respond to British policies, marking unified resistance."
+    },
+    1775: {
+        event: "American Revolutionary War begins",
+        details: "Conflict between the thirteen colonies and Britain over independence."
+    },
+    1776: {
+        event: "American Declaration of Independence",
+        details: "Thirteen American colonies declare independence from British rule, laying the foundation for the United States."
+    },
+    1777: {
+        event: "Battle of Saratoga",
+        details: "Turning point in the American Revolutionary War, leading to French support for America."
+    },
+    1778: {
+        event: "Treaty of Alliance signed between France and the United States",
+        details: "Formal commitment of French support for the American cause."
+    },
+    1779: {
+        event: "Death of George Washington's troops at Valley Forge",
+        details: "Signifying the harsh conditions faced by American soldiers during the winter."
+    },
+    1780: {
+        event: "The first mass movement against slavery in England",
+        details: "Beginning of organized efforts to abolish slavery."
+    },
+    1781: {
+        event: "Battle of Yorktown",
+        details: "Final major battle of the American Revolutionary War, leading to British surrender."
+    },
+    1782: {
+        event: "British Parliament votes to end the American War of Independence",
+        details: "Acknowledging the impossibility of suppressing the colonies’ rebellion."
+    },
+    1783: {
+        event: "Treaty of Paris signed",
+        details: "Officially ends the American Revolutionary War and recognizes U.S. independence."
+    },
+    1784: {
+        event: "The first edition of The Federalist Papers is published",
+        details: "Influencing the debate over the U.S. Constitution and federalism."
+    },
+    1785: {
+        event: "Establishment of the University of Virginia",
+        details: "Thomas Jefferson founds this institution, promoting educational reform."
+    },
+    1786: {
+        event: "Shays' Rebellion",
+        details: "Armed uprising in Massachusetts against economic injustices, influencing constitutional debates."
+    },
+    1787: {
+        event: "U.S. Constitution drafted",
+        details: "Foundation of the U.S. legal system and government structure."
+    },
+    1788: {
+        event: "President George Washington inaugurated",
+        details: "Becomes the first President of the United States, establishing the office's precedent."
+    },
+    1789: {
+        event: "French Revolution begins",
+        details: "Revolution against the monarchy that leads to the rise of secularism and the birth of modern democratic movements."
+    },
+    1790: {
+        event: "The first census in the United States",
+        details: "Beginning of modern demographic practices in the U.S."
+    },
+    1791: {
+        event: "The Bill of Rights ratified",
+        details: "The first ten amendments to the U.S. Constitution guarantee individual liberties."
+    },
+    1792: {
+        event: "Foundation of the Democratic-Republican Party",
+        details: "Signifying emerging political divisions in the early U.S. government."
+    },
+    1793: {
+        event: "Alliance of Great Britain and Prussia formed",
+        details: "A significant geopolitical alliance in Europe."
+    },
+    1794: {
+        event: "Whiskey Rebellion",
+        details: "Uprising against federal taxes, reflecting tensions between rural and urban interests."
+    },
+    1795: {
+        event: "Treaty of Greenville",
+        details: "Ending hostilities between Native Americans and settlers in the Northwest Territory."
+    },
+    1796: {
+        event: "Washington's Farewell Address",
+        details: "Warning against political parties and foreign alliances."
+    },
+    1797: {
+        event: "John Adams inaugurated as President",
+        details: "Second President of the United States, continuing the early federal government framework."
+    },
+    1798: {
+        event: "Alien and Sedition Acts passed",
+        details: "Signifying tensions over immigration and free speech in a post-revolution society."
+    },
+    1799: {
+        event: "Death of George Washington",
+        details: "Mourning the loss of the first President and pivotal leader of the American Revolution."
+    },
+    1800: {
+        event: "U.S. capital moves to Washington, D.C.",
+        details: "Marking a significant shift in the nation’s political landscape."
+    },
+    1801: {
+        event: "Thomas Jefferson inaugurated as President",
+        details: "Signifying the first peaceful transfer of power between political factions."
+    },
+    1802: {
+        event: "The U.S. Military Academy at West Point founded",
+        details: "Establishing a formal training ground for the nation’s military leaders."
+    },
+    1803: {
+        event: "Louisiana Purchase from France",
+        details: "Doubling the size of the United States and expanding westward."
+    },
+    1804: {
+        event: "Lewis and Clark Expedition begins",
+        details: "An exploration commissioned to map the newly acquired western territories."
+    },
+    1805: {
+        event: "Completion of the United States Military Academy",
+        details: "Training military leaders for the expanding nation."
+    },
+    1806: {
+        event: "Construction of the National Road begins",
+        details: "Improving transportation and facilitating westward expansion."
+    },
+    1807: {
+        event: "The Embargo Act passed",
+        details: "Restricting American trade with foreign nations, impacting the economy."
+    },
+    1808: {
+        event: "The first anti-slavery societies established in the U.S.",
+        details: "Beginning organized efforts to end the slave trade."
+    },
+    1809: {
+        event: "James Madison inaugurated as President",
+        details: "Continuing the legacy of the founding fathers."
+    },
+    1810: {
+        event: "The first U.S. census reports population over 7 million",
+        details: "Signifying rapid growth and expansion of the nation."
+    },
+    1811: {
+        event: "The first national road, Cumberland Road, completed",
+        details: "Facilitating commerce and westward movement."
+    },
+    1812: {
+        event: "War of 1812 begins",
+        details: "Conflict between the U.S. and Britain over maritime rights."
+    },
+    1813: {
+        event: "Battle of Lake Erie",
+        details: "A decisive naval victory for the U.S. in the War of 1812."
+    },
+    1814: {
+        event: "British burn Washington, D.C.",
+        details: "Symbolizing the vulnerability of the young nation."
+    },
+    1815: {
+        event: "Battle of New Orleans",
+        details: "A major U.S. victory that boosts national morale after the War of 1812."
+    },
+    1816: {
+        event: "Second Bank of the United States established",
+        details: "Paving the way for a centralized banking system."
+    },
+    1817: {
+        event: "Construction of the Erie Canal begins",
+        details: "An ambitious project to connect the Great Lakes with New York City."
+    },
+    1818: {
+        event: "The Treaty of 1818 signed with Britain",
+        details: "Settling boundaries and issues between the U.S. and British North America."
+    },
+    1819: {
+        event: "The Panic of 1819 occurs",
+        details: "The first major economic crisis in the U.S., leading to widespread hardship."
+    },
+    1820: {
+        event: "Missouri Compromise reached",
+        details: "Attempts to balance slave and free states in Congress."
+    },
+    1821: {
+        event: "Florida becomes a U.S. territory",
+        details: "Marking the expansion of the United States to the south."
+    },
+    1822: {
+        event: "The first public school opened in Massachusetts",
+        details: "Signifying the value of education in society."
+    },
+    1823: {
+        event: "The Monroe Doctrine declared",
+        details: "A U.S. policy opposing European colonization in the Americas."
+    },
+    1824: {
+        event: "First presidential election decided by the House of Representatives",
+        details: "Leading to increased scrutiny of the electoral process."
+    },
+    1825: {
+        event: "The Erie Canal opens",
+        details: "Significantly enhancing trade and transport in the U.S."
+    },
+    1826: {
+        event: "The first public library established in Boston",
+        details: "Promoting literacy and education for all."
+    },
+    1827: {
+        event: "Freedman’s Bureau established",
+        details: "Aiding newly freed slaves in the post-Civil War South."
+    },
+    1828: {
+        event: "Andrew Jackson elected President",
+        details: "Signifying a change in political dynamics in the U.S."
+    },
+    1829: {
+        event: "The first steam locomotive launched",
+        details: "Beginning a new era in transportation."
+    },
+    1830: {
+        event: "The Indian Removal Act passed",
+        details: "Leading to the forced displacement of Native Americans from their lands."
+    },
+    1831: {
+        event: "Nat Turner’s Rebellion",
+        details: "A significant slave uprising in Virginia that increases tensions over slavery."
+    },
+    1832: {
+        event: "The Nullification Crisis",
+        details: "A confrontation between South Carolina and the federal government over tariffs."
+    },
+    1833: {
+        event: "The abolition of slavery in the British Empire",
+        details: "Signifying a significant change in the colonial world."
+    },
+    1834: {
+        event: "The anti-slavery movement gains momentum in the U.S.",
+        details: "Organized efforts to end slavery are strengthened."
+    },
+    1835: {
+        event: "The founding of the first anti-slavery society in Boston",
+        details: "Promoting organized efforts against slavery."
+    },
+    1836: {
+        event: "The Texas Revolution",
+        details: "Conflict that results in the secession of Texas from Mexico."
+    },
+    1837: {
+        event: "Panic of 1837 occurs",
+        details: "A major economic depression affecting the U.S."
+    },
+    1838: {
+        event: "The Trail of Tears",
+        details: "Forced relocation of Cherokee people from their ancestral lands."
+    },
+    1839: {
+        event: "First photos taken",
+        details: "A significant advancement in technology marking the beginning of photography."
+    },
+    1840: {
+        event: "The First National Woman's Rights Convention held",
+        details: "Signifying early organized efforts for women's rights."
+    },
+    1841: {
+        event: "Establishment of the American Anti-Slavery Society",
+        details: "Focusing on ending slavery and promoting abolition."
+    },
+    1842: {
+        event: "The first major oil discovery in Pennsylvania",
+        details: "Beginning the modern petroleum industry."
+    },
+    1843: {
+        event: "The publication of A Christmas Carol",
+        details: "Charles Dickens' novel influencing Christmas traditions."
+    },
+    1844: {
+        event: "First telegraph line installed",
+        details: "Revolutionizing communication across distances."
+    },
+    1845: {
+        event: "The U.S. annexes Texas",
+        details: "Leading to increased tensions with Mexico."
+    },
+    1846: {
+        event: "The Mexican-American War begins",
+        details: "Conflict over border disputes and expansionist policies."
+    },
+    1847: {
+        event: "The first book by a black woman published in America",
+        details: "A landmark event in literary history."
+    },
+    1848: {
+        event: "California Gold Rush begins",
+        details: "Leading to rapid westward expansion and demographic shifts."
+    },
+    1849: {
+        event: "The formation of the Women’s National Loyal League",
+        details: "Strengthening the women's rights movement."
+    },
+    1850: {
+        event: "Compromise of 1850",
+        details: "Attempt to balance free and slave states in the U.S."
+    },
+    1851: {
+        event: "The first world’s fair in London",
+        details: "Showcasing technological advancements and cultural achievements."
+    },
+    1852: {
+        event: "Uncle Tom's Cabin published",
+        details: "Harriet Beecher Stowe's novel raises awareness about the realities of slavery."
+    },
+    1853: {
+        event: "Commodore Perry opens Japan to the West",
+        details: "Signifying a major shift in global trade dynamics."
+    },
+    1854: {
+        event: "Kansas-Nebraska Act passed",
+        details: "Repealing the Missouri Compromise and escalating tensions over slavery."
+    },
+    1855: {
+        event: "First modern state constitution in America adopted in Massachusetts",
+        details: "Promoting democratic governance."
+    },
+    1856: {
+        event: "Bleeding Kansas begins",
+        details: "Violent conflict between pro-slavery and anti-slavery factions."
+    },
+    1857: {
+        event: "Supreme Court's Dred Scott decision",
+        details: "A major ruling that heightens tensions over slavery."
+    },
+    1858: {
+        event: "John Brown's Raid on Harpers Ferry",
+        details: "Attempted slave uprising that escalates national tensions."
+    },
+    1859: {
+        event: "Charles Darwin publishes On the Origin of Species",
+        details: "Revolutionizing the understanding of biology and evolution."
+    },
+    1860: {
+        event: "Abraham Lincoln elected President",
+        details: "Signifying a major shift in U.S. politics and sectional conflict."
+    },
+    1861: {
+        event: "American Civil War begins",
+        details: "Conflict primarily over slavery and states' rights, which ultimately led to the abolition of slavery."
+    },
+    1862: {
+        event: "Battle of Antietam",
+        details: "Bloodiest single-day battle in American history."
+    },
+    1863: {
+        event: "Emancipation Proclamation issued",
+        details: "Declares freedom for all slaves in Confederate-held territory."
+    },
+    1864: {
+        event: "Lincoln reelected as President",
+        details: "Signifying popular support for his policies during the Civil War."
+    },
+    1865: {
+        event: "Civil War ends",
+        details: "Union victory leads to the preservation of the United States."
+    },
+    1866: {
+        event: "First Civil Rights Act passed",
+        details: "Legislation aimed at protecting African American rights."
+    },
+    1867: {
+        event: "The Reconstruction Acts passed",
+        details: "Establishing parameters for reintegrating Southern states."
+    },
+    1868: {
+        event: "Fourteenth Amendment ratified",
+        details: "Guaranteeing citizenship and equal protection under the law."
+    },
+    1869: {
+        event: "First Transcontinental Railroad completed",
+        details: "Connecting the eastern and western United States, facilitating commerce and travel."
+    },
+    1870: {
+        event: "Fifteenth Amendment ratified",
+        details: "Prohibiting the denial of voting rights based on race."
+    },
+    1871: {
+        event: "Great Chicago Fire",
+        details: "Devastating fire that led to modernization and urban renewal."
+    },
+    1872: {
+        event: "Ulysses S. Grant reelected President",
+        details: "Strengthening the Republican party's position."
+    },
+    1873: {
+        event: "Panic of 1873 occurs",
+        details: "A financial crisis that leads to economic depression."
+    },
+    1874: {
+        event: "The first U.S. Patent Office established",
+        details: "Promoting innovation and intellectual property rights."
+    },
+    1875: {
+        event: "Civil Rights Act of 1875 passed",
+        details: "Attempting to guarantee African American rights in public spaces."
+    },
+    1876: {
+        event: "Centennial Exposition in Philadelphia",
+        details: "Celebration of America's 100th birthday, showcasing advancements."
+    },
+    1877: {
+        event: "Reconstruction ends",
+        details: "Marking a shift in racial and political dynamics in the South."
+    },
+    1878: {
+        event: "The Labor Reform movement begins",
+        details: "Focused on improving conditions for workers."
+    },
+    1879: {
+        event: "Albert Einstein born",
+        details: "Future physicist known for theories reshaping modern physics."
+    },
+    1880: {
+        event: "First U.S. Census exceeds 50 million people",
+        details: "Indicating rapid population growth."
+    },
+    1881: {
+        event: "James Garfield assassinated",
+        details: "A major event in U.S. politics highlighting issues of violence."
+    },
+    1882: {
+        event: "Chinese Exclusion Act passed",
+        details: "Prohibiting Chinese laborers from immigrating to the U.S."
+    },
+    1883: {
+        event: "The first free public school in New York established",
+        details: "Providing education to all children irrespective of their background."
+    },
+    1884: {
+        event: "Mark Twain publishes Adventures of Huckleberry Finn",
+        details: "Highlights social issues such as race and identity."
+    },
+    1885: {
+        event: "The Statue of Liberty officially dedicated",
+        details: "Symbolizing freedom and democracy, a gift from France."
+    },
+    1886: {
+        event: "Haymarket affair",
+        details: "Labor protest in Chicago that turns violent, affecting labor rights."
+    },
+    1887: {
+        event: "Dawes Act passed",
+        details: "Aimed to assimilate Native Americans by allotting them individual plots."
+    },
+    1888: {
+        event: "John Dewey published Democracy and Education",
+        details: "Foundation of progressive education emphasizing democracy."
+    },
+    1889: {
+        event: "The first Coca-Cola sold",
+        details: "Signifying the beginning of a global beverage phenomenon."
+    },
+    1890: {
+        event: "Sherman Antitrust Act passes",
+        details: "Aimed at curbing monopolies and promoting fair competition."
+    },
+    1891: {
+        event: "First basketball game played",
+        details: "Marking the founding of a globally popular sport."
+    },
+    1892: {
+        event: "Ellis Island opens as an immigration station",
+        details: "Symbolizing America's reputation as a land of opportunity."
+    },
+    1893: {
+        event: "World's Columbian Exposition held in Chicago",
+        details: "Celebrating the 400th anniversary of Columbus's arrival in America."
+    },
+    1894: {
+        event: "Pullman strike occurs",
+        details: "A nationwide railroad strike symbolizing labor unrest."
+    },
+    1895: {
+        event: "First film screened",
+        details: "Beginning of the motion picture industry."
+    },
+    1896: {
+        event: "Plessy v. Ferguson decision",
+        details: "Established 'separate but equal' doctrine, legitimizing racial segregation."
+    },
+    1897: {
+        event: "The first women's suffrage organization formed",
+        details: "Rallying for the right to vote."
+    },
+    1898: {
+        event: "Spanish-American War begins",
+        details: "A conflict leading to the U.S. acquiring territories in the Caribbean and Pacific."
+    },
+    1899: {
+        event: "The first International Peace Conference held in The Hague",
+        details: "Signifying early efforts to promote peace and resolve conflicts."
+    },
+    1900: {
+        event: "Gold Standard Act passed",
+        details: "Establishing gold as the only standard for redeeming paper currency."
+    },
+    1901: {
+        event: "William McKinley assassinated",
+        details: "Leading to Theodore Roosevelt's presidency and progressive reforms."
+    },
+    1902: {
+        event: "The first national park, Yellowstone, established",
+        details: "Marking the conservation movement in America."
+    },
+    1903: {
+        event: "Wright brothers make the first powered flight",
+        details: "Beginning the era of aviation."
+    },
+    1904: {
+        event: "The construction of the Panama Canal begins",
+        details: "Signifying major advancements in engineering and international trade."
+    },
+    1905: {
+        event: "The first major labor strike in the U.S.",
+        details: "The 1905 strike sets the stage for labor reforms."
+    },
+    1906: {
+        event: "The Pure Food and Drug Act passed",
+        details: "Establishing consumer protection regulations."
+    },
+    1907: {
+        event: "The first mass-produced automobile, the Model T, is introduced by Ford",
+        details: "Signifying the birth of the automobile industry."
+    },
+    1908: {
+        event: "The first modern Olympic Games held in London",
+        details: "Reviving the tradition of the Ancient Olympics."
+    },
+    1909: {
+        event: "NAACP founded",
+        details: "Focusing on civil rights and social justice for African Americans."
+    },
+    1910: {
+        event: "Mexican Revolution begins",
+        details: "A major armed struggle influencing governance in Mexico."
+    },
+    1911: {
+        event: "First International Women's Day celebrated",
+        details: "Highlighting women's rights and achievements."
+    },
+    1912: {
+        event: "Sinking of the Titanic",
+        details: "A maritime disaster that underscores safety regulations."
+    },
+    1913: {
+        event: "Federal Reserve Act passed",
+        details: "Establishing the central banking system of the U.S."
+    },
+    1914: {
+        event: "World War I begins",
+        details: "A global war originating in Europe that lasted until 1918."
+    },
+    1915: {
+        event: "Lusitania sunk by a German U-boat",
+        details: "A pivotal event leading to increased tensions between the U.S. and Germany."
+    },
+    1916: {
+        event: "Battle of the Somme begins",
+        details: "One of the largest battles in WWI, marking significant loss of life."
+    },
+    1917: {
+        event: "Russian Revolution",
+        details: "Major revolutionary events that led to the rise of the Soviet Union."
+    },
+    1918: {
+        event: "World War I ends",
+        details: "An armistice is signed, leading to the Treaty of Versailles."
+    },
+    1919: {
+        event: "Treaty of Versailles signed",
+        details: "Formally ending WWI and imposing reparations on Germany."
+    },
+    1920: {
+        event: "Women gain the right to vote in the U.S.",
+        details: "The 19th Amendment is ratified."
+    },
+    1921: {
+        event: "The first radio station, KDKA, begins broadcasting",
+        details: "Start of the radio wave revolution."
+    },
+    1922: {
+        event: "The first radio play broadcast in the U.S.",
+        details: "Innovating story-telling through emerging technology."
+    },
+    1923: {
+        event: "The Great Migration peaks",
+        details: "Mass relocation of African Americans from the rural Southern U.S. to urban areas."
+    },
+    1924: {
+        event: "The first Winter Olympics held in Chamonix, France",
+        details: "Expanding the Olympic Games to include winter sports."
+    },
+    1925: {
+        event: "Scopes 'Monkey' Trial",
+        details: "A significant legal case addressing the teaching of evolution."
+    },
+    1926: {
+        event: "The first successful television transmission",
+        details: "Marking technological advancements in communication."
+    },
+    1927: {
+        event: "Charles Lindbergh flies solo nonstop across the Atlantic",
+        details: "A milestone in aviation and transatlantic travel."
+    },
+    1928: {
+        event: "Discovery of penicillin",
+        details: "A major breakthrough in medicine by Alexander Fleming."
+    },
+    1929: {
+        event: "Stock Market Crash",
+        details: "A catastrophic economic downturn leading to the Great Depression."
+    },
+    1930: {
+        event: "The first crossword puzzle published in a newspaper",
+        details: "Starting a popular recreational activity."
+    },
+    1931: {
+        event: "The Empire State Building completed",
+        details: "A significant achievement in engineering and architecture."
+    },
+    1932: {
+        event: "Franklin D. Roosevelt elected President",
+        details: "Beginning the New Deal era to counteract the Great Depression."
+    },
+    1933: {
+        event: "The first Social Security Act signed",
+        details: "Establishing a safety net for the elderly and unemployed."
+    },
+    1934: {
+        event: "Dust Bowl begins",
+        details: "Severe drought affecting agriculture and leading to migration."
+    },
+    1935: {
+        event: "The Social Security Act enacted",
+        details: "Establishing a social safety net for vulnerable populations."
+    },
+    1936: {
+        event: "The Great Depression continues",
+        details: "Leading to further economic hardships and social changes."
+    },
+    1937: {
+        event: "Hindenburg disaster",
+        details: "A significant event in aviation history, marking the decline of airship travel."
+    },
+    1938: {
+        event: "Munich Agreement signed",
+        details: "Appeasement policies prior to WWII heightening tensions in Europe."
+    },
+    1939: {
+        event: "World War II begins",
+        details: "A global conflict involving most of the world's nations."
+    },
+    1940: {
+        event: "Fall of France to German forces",
+        details: "Signifying a critical turning point in the early stages of WWII."
+    },
+    1941: {
+        event: "Attack on Pearl Harbor",
+        details: "Leading to U.S. entry into World War II."
+    },
+    1942: {
+        event: "Battle of Midway",
+        details: "Decisive naval victory for the U.S. against Japan, turning the tide in the Pacific."
+    },
+    1943: {
+        event: "Allied invasion of Italy",
+        details: "Signifying the push against Axis powers in Europe."
+    },
+    1944: {
+        event: "D-Day (Normandy landings)",
+        details: "Allied forces invade France, marking the beginning of the end for Nazi Germany."
+    },
+    1945: {
+        event: "World War II ends",
+        details: "Nazi Germany surrenders; the U.S. drops atomic bombs on Hiroshima and Nagasaki."
+    },
+    1946: {
+        event: "United Nations founded",
+        details: "Aiming to promote international cooperation and peace."
+    },
+    1947: {
+        event: "Cold War begins",
+        details: "A geopolitical tension between the USSR and Western powers."
+    },
+    1948: {
+        event: "The Marshall Plan announced",
+        details: "A significant economic aid program to rebuild Europe after WWII."
+    },
+    1949: {
+        event: "NATO formed",
+        details: "Military alliance formed in response to Soviet expansion."
+    },
+    1950: {
+        event: "Korean War begins",
+        details: "A conflict between North and South Korea, drawing in international powers."
+    },
+    1951: {
+        event: "The Allied Powers sign the Treaty of San Francisco",
+        details: "Formally ending the state of war with Japan."
+    },
+    1952: {
+        event: "The first hydrogen bomb tested by the U.S.",
+        details: "Marking a significant advancement in nuclear weapons technology."
+    },
+    1953: {
+        event: "Stalin dies",
+        details: "Marking a significant political shift in the Soviet Union and internationally."
+    },
+    1954: {
+        event: "Brown v. Board of Education decision",
+        details: "Supreme Court ruling declaring racial segregation in public schools unconstitutional."
+    },
+    1955: {
+        event: "Montgomery Bus Boycott begins",
+        details: "A key event in the Civil Rights Movement."
+    },
+    1956: {
+        event: "Suez Crisis occurs",
+        details: "A key event in Cold War geopolitics."
+    },
+    1957: {
+        event: "Sputnik launched by the USSR",
+        details: "The first artificial satellite, marking the beginning of the space age."
+    },
+    1958: {
+        event: "NASA established",
+        details: "Beginning the U.S. commitment to space exploration."
+    },
+    1959: {
+        event: "Cuban Revolution led by Fidel Castro",
+        details: "Establishing a communist state in the western hemisphere."
+    },
+    1960: {
+        event: "U.S. Presidential election campaign begins",
+        details: "John F. Kennedy versus Richard Nixon, with televised debates."
+    },
+    1961: {
+        event: "Bay of Pigs invasion",
+        details: "Failed U.S. attempt to overthrow Castro in Cuba."
+    },
+    1962: {
+        event: "Cuban Missile Crisis",
+        details: "A significant Cold War confrontation between the U.S. and the USSR."
+    },
+    1963: {
+        event: "President John F. Kennedy assassinated",
+        details: "A pivotal moment in American history leading to national mourning."
+    },
+    1964: {
+        event: "Civil Rights Act passed",
+        details: "Prohibiting discrimination based on race, color, religion, sex, or national origin."
+    },
+    1965: {
+        event: "Voting Rights Act passed",
+        details: "Protecting voting rights for all Americans, especially African Americans."
+    },
+    1966: {
+        event: "National Organization for Women founded",
+        details: "Advocating for women's rights and equality."
+    },
+    1967: {
+        event: "The first Super Bowl held",
+        details: "Marking a significant moment in American sports culture."
+    },
+    1968: {
+        event: "Martin Luther King Jr. assassinated",
+        details: "A critical event in the Civil Rights Movement leading to nationwide riots."
+    },
+    1969: {
+        event: "Apollo 11 lands on the Moon",
+        details: "Marking a significant milestone in space exploration."
+    },
+    1970: {
+        event: "First Earth Day celebrated",
+        details: "Raising awareness about environmental issues."
+    },
+    1971: {
+        event: "U.S. abolishes the gold standard",
+        details: "Shifting to a fiat currency system."
+    },
+    1972: {
+        event: "Watergate scandal begins",
+        details: "A political scandal that leads to the resignation of President Nixon."
+    },
+    1973: {
+        event: "Roe v. Wade decision issued",
+        details: "Legalizing abortion in the U.S. and impacting women's rights."
+    },
+    1974: {
+        event: "President Nixon resigns",
+        details: "The first U.S. president to resign from office amid scandal."
+    },
+    1975: {
+        event: "Fall of Saigon",
+        details: "End of the Vietnam War and the reunification of Vietnam under communist rule."
+    },
+    1976: {
+        event: "100th anniversary of the United States",
+        details: "Celebrated through a bicentennial event highlighting American history."
+    },
+    1977: {
+        event: "Star Wars released",
+        details: "Transforming the film industry and becoming a cultural phenomenon."
+    },
+    1978: {
+        event: "First test-tube baby born",
+        details: "A major advancement in reproductive technology."
+    },
+    1979: {
+        event: "Iranian Revolution occurs",
+        details: "Overthrowing the Shah and establishing an Islamic Republic."
+    },
+    1980: {
+        event: "U.S. boycott of Moscow Olympics",
+        details: "Protesting the Soviet invasion of Afghanistan."
+    },
+    1981: {
+        event: "First space shuttle launched",
+        details: "Beginning a new era of space exploration."
+    },
+    1982: {
+        event: "Economic recession hits the U.S.",
+        details: "Significant economic downturn affecting many American workers."
+    },
+    1983: {
+        event: "SDI program announced by President Reagan",
+        details: "Controversial defense plan intended to protect against nuclear missiles."
+    },
+    1984: {
+        event: "American production of the first personal computer",
+        details: "Signifying the rise of technology and personal computing."
+    },
+    1985: {
+        event: "Gorbachev becomes the leader of the USSR",
+        details: "Beginning significant reforms and openness in the Soviet Union."
+    },
+    1986: {
+        event: "Chernobyl disaster",
+        details: "Nuclear accident that has lasting effects on public health and safety."
+    },
+    1987: {
+        event: "The first Black children admitted to a traditionally white school in the South",
+        details: "Signifying progress toward racial integration."
+    },
+    1988: {
+        event: "Pan Am Flight 103 bombed over Lockerbie, Scotland",
+        details: "A significant terrorist act against a commercial flight."
+    },
+    1989: {
+        event: "Fall of the Berlin Wall",
+        details: "A significant event marking the end of the Cold War and reunification of Germany."
+    },
+    1990: {
+        event: "Nelson Mandela released from prison",
+        details: "Signifying a pivotal moment in the struggle against apartheid in South Africa."
+    },
+    1991: {
+        event: "Dissolution of the Soviet Union",
+        details: "Marking the end of communist rule in Eastern Europe."
+    },
+    1992: {
+        event: "The Maastricht Treaty signed",
+        details: "Establishing the European Union and introducing a single currency."
+    },
+    1993: {
+        event: "NAFTA signed",
+        details: "Creating a trade agreement between the U.S., Canada, and Mexico."
+    },
+    1994: {
+        event: "Rwandan Genocide begins",
+        details: "A tragic event resulting in massive loss of life."
+    },
+    1995: {
+        event: "Oklahoma City bombing occurs",
+        details: "The deadliest act of domestic terrorism in U.S. history."
+    },
+    1996: {
+        event: "The first time the Olympics were held in Atlanta, Georgia",
+        details: "Signifying a major event in American sports and culture."
+    },
+    1997: {
+        event: "The handover of Hong Kong to China",
+        details: "Signifying the end of British colonial rule."
+    },
+    1998: {
+        event: "Impeachment of President Bill Clinton",
+        details: "A significant event impacting politics and public perception in the U.S."
+    },
+    1999: {
+        event: "Y2K concerns arise",
+        details: "Fear of technological failures at the turn of the millennium."
+    },
+    2000: {
+        event: "The dot-com bubble bursts",
+        details: "Signifying the end of rapid growth in internet-based businesses."
+    },
+    2001: {
+        event: "September 11 attacks",
+        details: "A major terrorist attack resulting in significant loss of life and changes in U.S. policies."
+    },
+    2002: {
+        event: "U.S. withdraws from the Anti-Ballistic Missile Treaty",
+        details: "Signifying changes in international security dynamics."
+    },
+    2003: {
+        event: "U.S. invades Iraq",
+        details: "Beginning the Iraq War under the pretense of weapons of mass destruction."
+    },
+    2004: {
+        event: "Facebook launched",
+        details: "Beginning a new era of social media and digital communication."
+    },
+    2005: {
+        event: "Hurricane Katrina strikes New Orleans",
+        details: "A major natural disaster that reveals flaws in disaster preparedness."
+    },
+    2006: {
+        event: "North Korea conducts nuclear tests",
+        details: "Signifying rising tensions over nuclear proliferation."
+    },
+    2007: {
+        event: "The first iPhone released",
+        details: "A groundbreaking innovation in mobile technology."
+    },
+    2008: {
+        event: "Global financial crisis occurs",
+        details: "Leading to significant economic downturns and reforms."
+    },
+    2009: {
+        event: "President Obama inaugurated",
+        details: "Becoming the first African American president in U.S. history."
+    },
+    2010: {
+        event: "The Affordable Care Act signed into law",
+        details: "Significant health care reform in the U.S."
+    },
+    2011: {
+        event: "Osama bin Laden killed by U.S. forces",
+        details: "A significant moment in the U.S. ongoing response to terrorism."
+    },
+    2012: {
+        event: "The Sandy Hook Elementary School shooting",
+        details: "A tragic event sparking new discussions on gun control."
+    },
+    2013: {
+        event: "The Boston Marathon bombing occurs",
+        details: "A significant act of domestic terrorism prompting national security reviews."
+    },
+    2014: {
+        event: "The rise of the Islamic State in Iraq and Syria",
+        details: "Signifying worsening conflicts in the Middle East."
+    },
+    2015: {
+        event: "U.S. Supreme Court legalizes same-sex marriage",
+        details: "A landmark decision affirming marriage equality."
+    },
+    2016: {
+        event: "Donald Trump elected President",
+        details: "A significant political shift in U.S. governance."
+    },
+    2017: {
+        event: "Women’s march occurs across the U.S.",
+        details: "A major protest advocating for women's rights and social justice."
+    },
+    2018: {
+        event: "U.S. withdraws from the Iran nuclear deal",
+        details: "A significant shift in Middle Eastern diplomatic relations."
+    },
+    2019: {
+        event: "COVID-19 pandemic begins",
+        details: "An unprecedented global health crisis impacting economies and societies."
+    },
+    2020: {
+        event: "Black Lives Matter protests surge",
+        details: "A major movement against racial injustice and police violence."
+    },
+    2021: {
+        event: "Inauguration of President Joe Biden",
+        details: "Signifying a return to traditional political norms and policies."
+    },
+    2022: {
+        event: "Ukraine-Russia conflict intensifies",
+        details: "A significant geopolitical crisis affecting international relations."
+    },
+    2023: {
+        event: "The rise of AI technologies",
+        details: "Transformations in industries and economies due to advancements in artificial intelligence."
+    },
+    2024: {
+        event: "Global health crisis management strategies evolve",
+        details: "New policies and systems implemented in response to ongoing pandemic effects."
+    },
+    2025: {
+        event: "Sustainable energy initiatives gain global momentum",
+        details: "Countries commit to significant reductions in carbon emissions."
+    }
+};
+
+// Brief explanations for years without events (just a few examples)
+const briefExplanations = {
+    1619: "This year marks the start of a significant chapter in American history concerning slavery, with the arrival of enslaved Africans in Virginia.",
+    1670: "The 17th century was marked by European colonial expansion and the struggles for power among different nations.",
+    1877: "Reconstruction ends this year, marking a shift in racial and political dynamics in the South."
+};
+
+function populateYears() {
+    const yearSelect = document.getElementById('yearSelect');
+    for (let year = 1600; year <= 2025; year++) {
+        let option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+    }
+}
+
+function showEvent() {
+    const year = document.getElementById('yearSelect').value;
+    const resultDiv = document.getElementById('result');
+
+    if (historicalEvents[year]) {
+        const event = historicalEvents[year];
+        resultDiv.innerHTML = `<h2>${year}</h2><p><strong>Event:</strong> ${event.event}</p><p><strong>Details:</strong> ${event.details}</p>`;
+    } else if (briefExplanations[year]) {
+        resultDiv.innerHTML = `<h2>${year}</h2><p>No timeline available for this year. <strong>Note:</strong> ${briefExplanations[year]}</p>`;
+    } else {
+        resultDiv.innerHTML = `<h2>${year}</h2><p>No timeline available for this year and no significant historical events documented.</p>`;
+    }
+}
+
+// Populate the years in the dropdown when the page loads
+window.onload = function() {
+    populateYears();
+}
+</script>
+
+</body>
+</html>
